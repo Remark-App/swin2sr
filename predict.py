@@ -20,13 +20,13 @@ class Predictor(BasePredictor):
         args.scale = 4
         args.large_model = False
 
-        tasks = ["classical_sr", "compressed_sr", "real_sr"]
+        tasks = ["real_sr"]
         paths = [
-            "weights/Swin2SR_ClassicalSR_X4_64.pth",
-            "weights/Swin2SR_CompressedSR_X4_48.pth",
+            # "weights/Swin2SR_ClassicalSR_X4_64.pth",
+            # "weights/Swin2SR_CompressedSR_X4_48.pth",
             "weights/Swin2SR_RealworldSR_X4_64_BSRGAN_PSNR.pth",
         ]
-        sizes = [64, 48, 128]
+        sizes = [128]
 
         self.models = {}
         for task, path, size in zip(tasks, paths, sizes):
