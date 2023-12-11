@@ -101,6 +101,7 @@ if __name__ == "__main__":
     parser.add_argument('--task', type=str, help="task name")
     args = parser.parse_args()
     predictor = Predictor()
+    predictor.setup()
     # all images
     os.makedirs(args.output_folder, exist_ok=True)
     for img_path in Path(args.input_folder).glob("*.*"):
