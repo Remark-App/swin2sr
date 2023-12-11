@@ -42,6 +42,7 @@ class Predictor(BasePredictor):
             choices=["classical_sr", "real_sr", "compressed_sr"],
             default="real_sr",
         ),
+        output_path: Path = Input(description="Output image"),
     ) -> Path:
         """Run a single prediction on the model"""
 
@@ -85,7 +86,20 @@ class Predictor(BasePredictor):
                 output[[2, 1, 0], :, :], (1, 2, 0)
             )  # CHW-RGB to HCW-BGR
         output = (output * 255.0).round().astype(np.uint8)  # float32 to uint8
-        output_path = "/tmp/out.png"
+        output_path = str(output_path)
         cv2.imwrite(output_path, output)
 
         return Path(output_path)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--input_folder', type=str, help="input image folder")
+    parser.add_argument('--output_folder', type=str, help="output image folder")
+    parser.add_argument('--task', type=str, help="task name")
+    args = parser.parse_args()
+    predictor = Predictor()
+    # all images
+    for img_path in Path(args.input_folder).glob("*.*"):
+        output_path = Path(args.output_folder) / img_path.name
+        predictor.predict(img_path, args.task, output_path)
