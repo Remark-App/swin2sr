@@ -1,4 +1,6 @@
 import argparse
+import os
+
 import cv2
 import numpy as np
 import torch
@@ -100,6 +102,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     predictor = Predictor()
     # all images
+    os.makedirs(args.output_folder, exist_ok=True)
     for img_path in Path(args.input_folder).glob("*.*"):
         output_path = Path(args.output_folder) / img_path.name
         predictor.predict(img_path, args.task, output_path)
